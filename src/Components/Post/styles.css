@@ -1,0 +1,23 @@
+.post {
+    background: var(--gray-800);
+    border-radius: 8px;
+    padding: 4rem;
+}
+.post + .post {
+    margin-top: 3.2rem;
+}
+.content {
+    line-height: 1.6;
+    color: var(--gray-300);
+    margin-top: 2.4rem;
+}
+.content p {
+    margin-top: 1.6rem;
+}
+.content a {
+    font-weight: bold;
+    color: var(--green-500);
+}
+.content a:hover {
+    color: var(--green-300);
+}

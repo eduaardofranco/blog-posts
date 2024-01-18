@@ -25,6 +25,16 @@ export function Post({ title, content, name, role}) {
             </p>
 
             </div>
+            <form className='comment-form'>
+                <strong>Leave your feedback</strong>
+
+                <textarea
+                    placeholder='Wow mate, I loved it!'
+                />
+                <footer>
+                    <button type="submit">Publish</button>
+                </footer>
+            </form>
         </article>
     )
 }

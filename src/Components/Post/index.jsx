@@ -1,25 +1,33 @@
 
+import { format, formatDistanceStrict } from 'date-fns'
 import { Comment } from '../Comment'
 import { Avatar } from '../Avatar'
 import './styles.css'
-export function Post({ title, content, name, role}) {
-    return(
+export function Post({ content, name, role, url, publishedAt }) {
+    const publishedDateFormatted = format(publishedAt, "do LLL 'at' h:mmaaa")
+
+    const publishedDateRelativeToNow = formatDistanceStrict(publishedAt, new Date,{
+    })
+    return (
         <article className='post'>
             <header>
                 <div className='author'>
-                    <Avatar url="https://github.com/diego3g.png" />
+                    <Avatar url={url} />
                     <div className="author-info">
                         <strong>{name}</strong>
                         <span>{role}</span>
                     </div>
                 </div>
-                <time title="11th may at 08:13" dateTime="2024-05-11 08:10:30">published 1h ago</time>
+                <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow} ago</time>
             </header>
             <div className="content">
-            <p>{content}</p>
-            <p>
-                <a href="#">jane.design/doctorcare</a>
-            </p>
+            {content.map(line => {
+                if (line.type === 'paragraph') {
+                    return <p>{line.content}</p>
+                } else if (line.type === 'link') {
+                    return <p><a href="">{line.content}</a></p>
+                }
+             })}
             <p> 
                 <a href="#">#novoprojeto</a>{' '}
                 <a href="#">#nlw</a>{' '}
@@ -38,8 +46,6 @@ export function Post({ title, content, name, role}) {
                 </footer>
             </form>
             <div className="comment-list">
-                <Comment />
-                <Comment />
                 <Comment />
             </div>
         </article>

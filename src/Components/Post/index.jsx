@@ -3,11 +3,26 @@ import { format, formatDistanceStrict } from 'date-fns'
 import { Comment } from '../Comment'
 import { Avatar } from '../Avatar'
 import './styles.css'
+import { useState } from 'react'
 export function Post({ content, name, role, url, publishedAt }) {
+    const [comments, setComments] = useState([
+        'Post muito bacana'
+    ])
+    const [newCommentText, setNewCommentText] = useState('')
+
     const publishedDateFormatted = format(publishedAt, "do LLL 'at' h:mmaaa")
 
     const publishedDateRelativeToNow = formatDistanceStrict(publishedAt, new Date,{
     })
+
+    function handleCreateNewComment() {
+        event.preventDefault()
+        setComments([...comments, newCommentText])
+        setNewCommentText('')
+    }
+    function handleCNewCommentChange() {
+        setNewCommentText(event.target.value)
+    }
     return (
         <article className='post'>
             <header>
@@ -21,11 +36,11 @@ export function Post({ content, name, role, url, publishedAt }) {
                 <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow} ago</time>
             </header>
             <div className="content">
-            {content.map(line => {
+            {content.map((line, index) => {
                 if (line.type === 'paragraph') {
-                    return <p>{line.content}</p>
+                    return <p key={String(index)}>{line.content}</p>
                 } else if (line.type === 'link') {
-                    return <p><a href="">{line.content}</a></p>
+                    return <p key={String(index)}><a href="">{line.content}</a></p>
                 }
              })}
             <p> 
@@ -35,18 +50,27 @@ export function Post({ content, name, role, url, publishedAt }) {
             </p>
 
             </div>
-            <form className='comment-form'>
+            <form onSubmit={handleCreateNewComment} className='comment-form'>
                 <strong>Leave your feedback</strong>
 
                 <textarea
                     placeholder='Wow mate, I loved it!'
+                    value={newCommentText}
+                    onChange={handleCNewCommentChange}
                 />
                 <footer>
                     <button type="submit">Publish</button>
                 </footer>
             </form>
             <div className="comment-list">
-                <Comment />
+                {
+                    comments && comments.map((comment, index) => (
+                        <Comment
+                            key={String(index)}    
+                            content={comment}
+                        />
+                    ))
+                }
             </div>
         </article>
     )

@@ -11,6 +11,11 @@ export function Comment({ content, deleteComment }) {
 
         deleteComment(content)
     }
+    function handleLikeCount() {
+        setLikeCount((prev) => {
+            return prev + 1;
+        })
+    }
     return(
         <div className="comment">
             <Avatar hasBorder={false} url="https://avatars.githubusercontent.com/u/30300674?v=4" />
@@ -31,7 +36,7 @@ export function Comment({ content, deleteComment }) {
                     <p>{content}</p>
                 </div>
                 <footer>
-                    <button onClick={() => setLikeCount(likeCount + 1)}>
+                    <button onClick={handleLikeCount}>
                         <ThumbsUp /> 
                         Aplaudir <span>{likeCount}</span>
                     </button>

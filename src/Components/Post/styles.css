@@ -83,6 +83,10 @@
     
     transition: background 0.2s;
 }
+.comment-form button:disabled {
+    opacity: .5;
+    cursor: not-allowed
+}
 .comment-form footer {
     visibility: hidden;
     max-height: 0;

@@ -1,5 +1,5 @@
 
-import { format, formatDistanceStrict } from 'date-fns'
+import { format, formatDistanceStrict, set } from 'date-fns'
 import { Comment } from '../Comment'
 import { Avatar } from '../Avatar'
 import './styles.css'
@@ -23,6 +23,13 @@ export function Post({ content, name, role, url, publishedAt }) {
     function handleCNewCommentChange() {
         setNewCommentText(event.target.value)
     }
+    function deleteComment(commentToDelete) {
+        const commentsWithoutDeletedOne = comments.filter(comment => {
+            return comment !== commentToDelete
+        })
+        setComments(commentsWithoutDeletedOne)
+    }
+    const isNewcommentEmpty = newCommentText.length === 0;
     return (
         <article className='post'>
             <header>
@@ -59,7 +66,12 @@ export function Post({ content, name, role, url, publishedAt }) {
                     onChange={handleCNewCommentChange}
                 />
                 <footer>
-                    <button type="submit">Publish</button>
+                    <button
+                        type="submit"
+                        disabled={isNewcommentEmpty}
+                    >
+                        Publish
+                    </button>
                 </footer>
             </form>
             <div className="comment-list">
@@ -68,6 +80,7 @@ export function Post({ content, name, role, url, publishedAt }) {
                         <Comment
                             key={String(index)}    
                             content={comment}
+                            deleteComment={deleteComment}
                         />
                     ))
                 }
